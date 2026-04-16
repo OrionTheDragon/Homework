@@ -21,7 +21,7 @@ public class Main {
 
         System.out.println();
 
-        // Задание 2
+        // Задание 2.
         int clientDeviceYear = 2015;
         int randomYear = (int) (Math.random() * (2026 - 2010 + 1)) + 2010;
         System.out.println(randomYear);

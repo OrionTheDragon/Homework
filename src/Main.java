@@ -7,10 +7,10 @@ public class Main {
         StringBuilder str = new StringBuilder();
 
         // Задание 1
-        if (clientOS == 1) {
+        if (clientOS == 0) {
             str.append("Установите версию приложения для iOS по ссылке.");
         }
-        else if (clientOS == 0) {
+        else if (clientOS == 1) {
             str.append("Установите версию приложения для Android по ссылке.");
         }
         else {
@@ -26,14 +26,15 @@ public class Main {
         int randomYear = (int) (Math.random() * (2026 - 2010 + 1)) + 2010;
         System.out.println(randomYear);
 
-        if (randomYear < clientDeviceYear && clientOS == 1) {
-            str.setLength(0);
-            str.append("Установите облегченную версию приложения для Android по ссылке.");
-        }
-        else if (randomYear < clientDeviceYear && clientOS == 0) {
+        if (randomYear < clientDeviceYear && clientOS == 0) {
             str.setLength(0);
             str.append("Установите облегченную версию приложения для iOS по ссылке.");
         }
+        else if (randomYear < clientDeviceYear && clientOS == 1) {
+            str.setLength(0);
+            str.append("Установите облегченную версию приложения для Android по ссылке.");
+        }
+
 
         System.out.println(str);
 

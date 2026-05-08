@@ -39,7 +39,9 @@ public class Main {
 
         // Задача 4
         for (int i : arr) {
-            i += 1;
+            if (i % 2 != 0) {
+                i += 1;
+            }
             System.out.print(i + ", ");
         }
     }

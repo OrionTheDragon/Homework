@@ -35,9 +35,8 @@ public class Main {
 
     // -------------------- Задача 2 --------------------
     public static void recommendAppVersion(int osType, int clientDeviceYear) {
-        int currentYear = LocalDate.now().getYear();
         if (osType == 0) {
-            if (clientDeviceYear < currentYear) {
+            if (clientDeviceYear < 2015) {
                 System.out.println("Установите облегченную версию приложения для iOS по ссылке");
             }
             else {
@@ -45,7 +44,7 @@ public class Main {
             }
         }
         else if (osType == 1) {
-            if (clientDeviceYear < currentYear) {
+            if (clientDeviceYear < 2015) {
                 System.out.println("Установите облегченную версию приложения для Android по ссылке");
             }
             else {

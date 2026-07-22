@@ -1,6 +1,6 @@
 package org.skypro.skyshop;
 
-import java.util.Arrays;
+import java.util.List;
 import org.skypro.skyshop.article.Article;
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.DiscountedProduct;
@@ -13,7 +13,7 @@ import org.skypro.skyshop.search.Searchable;
 public class App {
     public static void main(String[] args) {
         ProductBasket basket = new ProductBasket();
-        SearchEngine searchEngine = new SearchEngine(20);
+        SearchEngine searchEngine = new SearchEngine();
 
         Product p1 = new SimpleProduct("Хлеб", 50);
         Product p2 = new SimpleProduct("Молоко", 80);
@@ -43,37 +43,41 @@ public class App {
         basket.addProduct(p2);
         basket.addProduct(p3);
         basket.addProduct(p4);
-
-        // Добавление продукта в заполненную корзину, в которой нет свободного места
         basket.addProduct(p5);
-        basket.addProduct(p6); // выведет "Невозможно добавить продукт"
+        basket.addProduct(p6); // Теперь нет ограничений на размер корзины
+        basket.addProduct(new SimpleProduct("Молоко", 85)); // Добавим ещё одно молоко для проверки удаления дубликатов
 
         // Печать содержимого корзины с несколькими товарами
         System.out.println("\nСодержимое корзины:");
         basket.printBasket();
 
-        // Получение стоимости корзины с несколькими товарами
-        System.out.println("\nСтоимость корзины: " + basket.getTotalPrice());
+        // Удалить существующий продукт из корзины.
+        System.out.println("\nУдаление 'Молоко' из корзины:");
+        List<Product> removedMilk = basket.removeProductByName("Молоко");
+        System.out.println("Удаленные продукты:");
+        for (Product p : removedMilk) {
+            System.out.println(p);
+        }
 
-        // Поиск товара, который есть в корзине
-        System.out.println("\nПоиск 'Молоко': " + basket.containsProduct("Молоко"));
-
-        // Поиск товара, которого нет в корзине
-        System.out.println("Поиск 'Сок': " + basket.containsProduct("Сок"));
-
-        // Очистка корзины
-        basket.clearBasket();
-        System.out.println("\nКорзина очищена.");
-
-        // Печать содержимого пустой корзины
-        System.out.println("\nСодержимое пустой корзины:");
+        // Вывести содержимое корзины
+        System.out.println("\nСодержимое корзины после удаления 'Молоко':");
         basket.printBasket();
 
-        // Получение стоимости пустой корзины
-        System.out.println("\nСтоимость пустой корзины: " + basket.getTotalPrice());
+        // Удалить несуществующий продукт.
+        System.out.println("\nУдаление 'Неизвестный' из корзины:");
+        List<Product> removedUnknown = basket.removeProductByName("Неизвестный");
+        if (removedUnknown.isEmpty()) {
+            System.out.println("Список пуст");
+        } else {
+            System.out.println("Удаленные продукты:");
+            for (Product p : removedUnknown) {
+                System.out.println(p);
+            }
+        }
 
-        // Поиск товара по имени в пустой корзине
-        System.out.println("\nПоиск 'Хлеб' в пустой корзине: " + basket.containsProduct("Хлеб"));
+        // Вывести содержимое корзины на экран.
+        System.out.println("\nСодержимое корзины после удаления несуществующего продукта:");
+        basket.printBasket();
 
         // Демонстрация функциональности поиска (через SearchEngine)
         System.out.println("\n--- Демонстрация поиска ---");
@@ -84,7 +88,7 @@ public class App {
         printSearchResults(searchEngine.search("Хлеб"));
 
         System.out.println("Поиск 'Молоко':");
-        System.out.println(Arrays.toString(searchEngine.search("Молоко")));
+        System.out.println(searchEngine.search("Молоко"));
 
         System.out.println("\n--- Демонстрация ошибок создания объектов ---");
         try {
@@ -127,11 +131,9 @@ public class App {
         }
     }
 
-    private static void printSearchResults(Searchable[] results) {
+    private static void printSearchResults(List<Searchable> results) {
         for (Searchable s : results) {
-            if (s != null) {
-                System.out.println(s.getStringRepresentation());
-            }
+            System.out.println(s.getStringRepresentation());
         }
     }
 }

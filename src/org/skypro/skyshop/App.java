@@ -85,6 +85,46 @@ public class App {
 
         System.out.println("Поиск 'Молоко':");
         System.out.println(Arrays.toString(searchEngine.search("Молоко")));
+
+        System.out.println("\n--- Демонстрация ошибок создания объектов ---");
+        try {
+            new SimpleProduct("   ", 100);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка создания продукта с пустым именем: " + e.getMessage());
+        }
+
+        try {
+            new SimpleProduct("Тест", -5);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка создания продукта с отрицательной ценой: " + e.getMessage());
+        }
+
+        try {
+            new DiscountedProduct("Тест скидки", 100, 150);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка создания продукта с неверной скидкой: " + e.getMessage());
+        }
+
+        try {
+            new Article("Тест", null);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка создания статьи с пустым текстом: " + e.getMessage());
+        }
+
+        System.out.println("\n--- Демонстрация поиска наиболее подходящего элемента ---");
+        try {
+            Searchable bestResult = searchEngine.findBestMatch("Яблок");
+            System.out.println("Лучший результат для 'Яблок': " + bestResult.getName());
+        } catch (org.skypro.skyshop.exceptions.BestResultNotFound e) {
+            System.out.println("Ошибка поиска: " + e.getMessage());
+        }
+
+        try {
+            Searchable bestResult = searchEngine.findBestMatch("Апельсин");
+            System.out.println("Лучший результат для 'Апельсин': " + bestResult.getName());
+        } catch (org.skypro.skyshop.exceptions.BestResultNotFound e) {
+            System.out.println("Ошибка поиска: " + e.getMessage());
+        }
     }
 
     private static void printSearchResults(Searchable[] results) {

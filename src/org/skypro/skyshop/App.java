@@ -1,7 +1,7 @@
 package org.skypro.skyshop;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import org.skypro.skyshop.article.Article;
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.DiscountedProduct;
@@ -132,8 +132,8 @@ public class App {
         }
     }
 
-    private static void printSearchResults(Map<String, Searchable> results) {
-        for (Searchable s : results.values()) {
+    private static void printSearchResults(Set<Searchable> results) {
+        for (Searchable s : results) {
             System.out.println(s.getStringRepresentation());
         }
     }

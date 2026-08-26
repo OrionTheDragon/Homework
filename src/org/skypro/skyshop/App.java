@@ -1,6 +1,7 @@
 package org.skypro.skyshop;
 
 import java.util.List;
+import java.util.Map;
 import org.skypro.skyshop.article.Article;
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.DiscountedProduct;
@@ -88,7 +89,7 @@ public class App {
         printSearchResults(searchEngine.search("Хлеб"));
 
         System.out.println("Поиск 'Молоко':");
-        System.out.println(searchEngine.search("Молоко"));
+        printSearchResults(searchEngine.search("Молоко"));
 
         System.out.println("\n--- Демонстрация ошибок создания объектов ---");
         try {
@@ -131,8 +132,8 @@ public class App {
         }
     }
 
-    private static void printSearchResults(List<Searchable> results) {
-        for (Searchable s : results) {
+    private static void printSearchResults(Map<String, Searchable> results) {
+        for (Searchable s : results.values()) {
             System.out.println(s.getStringRepresentation());
         }
     }

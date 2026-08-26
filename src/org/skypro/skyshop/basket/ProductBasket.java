@@ -1,5 +1,6 @@
 package org.skypro.skyshop.basket;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,13 +15,10 @@ public class ProductBasket {
     }
 
     public int getTotalPrice() {
-        int total = 0;
-        for (List<Product> productsByName : products.values()) {
-            for (Product product : productsByName) {
-                total += product.getPrice();
-            }
-        }
-        return total;
+        return products.values().stream()
+                .flatMap(Collection::stream)
+                .mapToInt(Product::getPrice)
+                .sum();
     }
 
     public void printBasket() {
@@ -28,30 +26,23 @@ public class ProductBasket {
             System.out.println("в корзине пусто");
             return;
         }
-        int specialCount = 0;
-        for (List<Product> productsByName : products.values()) {
-            for (Product product : productsByName) {
-                System.out.println(product.toString());
-                if (product.isSpecial()) {
-                    specialCount++;
-                }
-            }
-        }
+        products.values().stream()
+                .flatMap(Collection::stream)
+                .forEach(product -> System.out.println(product.toString()));
         System.out.println("Итого: " + getTotalPrice());
-        System.out.println("Специальных товаров: " + specialCount);
+        System.out.println("Специальных товаров: " + getSpecialCount());
+    }
+
+    private long getSpecialCount() {
+        return products.values().stream()
+                .flatMap(Collection::stream)
+                .filter(Product::isSpecial)
+                .count();
     }
 
     public boolean containsProduct(String name) {
-        List<Product> productsByName = products.get(name);
-        if (productsByName == null) {
-            return false;
-        }
-        for (Product product : productsByName) {
-            if (product.getName().equals(name)) {
-                return true;
-            }
-        }
-        return false;
+        return products.getOrDefault(name, List.of()).stream()
+                .anyMatch(product -> product.getName().equals(name));
     }
 
     public void clearBasket() {
